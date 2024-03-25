@@ -4,33 +4,60 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "defs.h"
+#include "logic.h"
 struct Graphics {
     SDL_Renderer *renderer;
     SDL_Window *window;
+    SDL_Texture *cellEmpty,*cellX,*cellO;
+
+    void init(){
+       initSDL();
+       cellEmpty=loadTexture("image//cell_empty.png");
+       cellX=loadTexture("image/x.png");
+       cellO=loadTexture("image/o..png");
+
+    }
+
+    void render(const Tictactoe& game){
+
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                int x = BOARD_X + j * CELL_SIZE;
+                int y = BOARD_Y + i * CELL_SIZE;
+                if(game.board[i][j]==EMPTY_CELL)
+                    renderTexture(cellEmpty,x,y);
+                else if(game.board[i][j]==O_CELL)
+                    renderTexture(cellO,x,y);
+                else renderTexture(cellX,x,y);
+            };
+
+
+
+        presentScene();
+    }
+
 
     void logErrorAndExit(const char* msg, const char* error)
     {
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
-                       "%s: %s", msg, error);
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,"%s: %s", msg, error);
         SDL_Quit();
     }
 
-    void init() {
+    void initSDL()
+    {
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
             logErrorAndExit("SDL_Init", SDL_GetError());
 
-        window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED,
-                   SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,
-                   SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT,SDL_WINDOW_SHOWN);
         if (window == nullptr)
                    logErrorAndExit("CreateWindow", SDL_GetError());
 
         if (!IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG))
             logErrorAndExit( "SDL_image error:", IMG_GetError());
 
-        renderer = SDL_CreateRenderer(window, -1,
-                     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
- SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
+        renderer = SDL_CreateRenderer(window, -1,SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+        SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
 
         if (renderer == nullptr)
              logErrorAndExit("CreateRenderer", SDL_GetError());
@@ -52,13 +79,10 @@ struct Graphics {
 
     SDL_Texture *loadTexture(const char *filename)
     {
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
-                       "Loading %s", filename);
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,"Loading %s", filename);
         SDL_Texture *texture = IMG_LoadTexture(renderer, filename);
         if (texture == NULL)
-            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION,
-                  SDL_LOG_PRIORITY_ERROR, "Load texture %s", IMG_GetError());
-
+            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION,SDL_LOG_PRIORITY_ERROR, "Load texture %s", IMG_GetError());
         return texture;
     }
 
@@ -71,15 +95,19 @@ struct Graphics {
         SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
         SDL_RenderCopy(renderer, texture, NULL, &dest);
- }
+   }
 
     void quit()
-    {
-        IMG_Quit();
-
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        SDL_Quit();
+    {    SDL_DestroyTexture(cellEmpty);
+         cellEmpty=NULL;
+         SDL_DestroyTexture(cellO);
+         cellO=NULL;
+         SDL_DestroyTexture(cellX);
+         cellX=NULL;
+         IMG_Quit();
+         SDL_DestroyRenderer(renderer);
+         SDL_DestroyWindow(window);
+         SDL_Quit();
     }
 };
 #endif _GRAPHICS__H
