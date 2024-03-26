@@ -5,8 +5,5 @@ const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 const char* WINDOW_TITLE = "Hello World!";
 
-#define CELL_SIZE 30
-#define BOARD_X 10
-#define BOARD_Y 10
 
 #endif

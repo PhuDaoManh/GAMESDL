@@ -1,12 +1,11 @@
 # depslib dependency file v1.0
-1711369681 source:c:\users\daoma\documents\gamesdl\main.cpp
-	<sdl.h>
+1711469391 source:c:\users\daoma\documents\gamesdl\main.cpp
+	<iostream>
+	<SDL.h>
 	<SDL_image.h>
-	"defs.h"
 	"graphics.h"
-	<SDL_events.h>
-	<bits/stdc++.h>
-	"logic.h"
+	"defs.h"
+	"game.h"
 
 1698944750 c:\users\daoma\documents\x86_64-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -407,13 +406,14 @@
 	"begin_code.h"
 	"close_code.h"
 
-1711369754 c:\users\daoma\documents\gamesdl\defs.h
+1711466230 c:\users\daoma\documents\gamesdl\defs.h
 
-1711369681 c:\users\daoma\documents\gamesdl\graphics.h
+1711468319 c:\users\daoma\documents\gamesdl\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	"defs.h"
-	"logic.h"
 
 1711369681 c:\users\daoma\documents\gamesdl\logic.h
+
+1711470553 c:\users\daoma\documents\gamesdl\game.h
 

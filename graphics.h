@@ -3,39 +3,10 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "defs.h"
-#include "logic.h"
-struct Graphics {
+#include"defs.h"
+struct Graphics{
     SDL_Renderer *renderer;
     SDL_Window *window;
-    SDL_Texture *cellEmpty,*cellX,*cellO;
-
-    void init(){
-       initSDL();
-       cellEmpty=loadTexture("image//cell_empty.png");
-       cellX=loadTexture("image/x.png");
-       cellO=loadTexture("image/o..png");
-
-    }
-
-    void render(const Tictactoe& game){
-
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++) {
-                int x = BOARD_X + j * CELL_SIZE;
-                int y = BOARD_Y + i * CELL_SIZE;
-                if(game.board[i][j]==EMPTY_CELL)
-                    renderTexture(cellEmpty,x,y);
-                else if(game.board[i][j]==O_CELL)
-                    renderTexture(cellO,x,y);
-                else renderTexture(cellX,x,y);
-            };
-
-
-
-        presentScene();
-    }
-
 
     void logErrorAndExit(const char* msg, const char* error)
     {
@@ -43,7 +14,7 @@ struct Graphics {
         SDL_Quit();
     }
 
-    void initSDL()
+    void init()
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
             logErrorAndExit("SDL_Init", SDL_GetError());
@@ -65,12 +36,16 @@ struct Graphics {
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
         SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
-
-    void prepareScene(SDL_Texture * background)
+void prepareScene()
     {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        SDL_RenderCopy( renderer, background, NULL, NULL);
     }
+   void prepareScene(SDL_Texture * background)
+   {
+       SDL_RenderClear(renderer);
+      SDL_RenderCopy(renderer, background, NULL, NULL);
+   }
 
     void presentScene()
     {
@@ -98,12 +73,7 @@ struct Graphics {
    }
 
     void quit()
-    {    SDL_DestroyTexture(cellEmpty);
-         cellEmpty=NULL;
-         SDL_DestroyTexture(cellO);
-         cellO=NULL;
-         SDL_DestroyTexture(cellX);
-         cellX=NULL;
+    {
          IMG_Quit();
          SDL_DestroyRenderer(renderer);
          SDL_DestroyWindow(window);
