@@ -38,8 +38,8 @@
 			<Add directory="C:/Users/daoma/Documents/x86_64-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="defs.h" />
+		<Unit filename="game.h" />
 		<Unit filename="graphics.h" />
-		<Unit filename="logic.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

@@ -9,12 +9,12 @@ struct motion{
        y+=dy;
    }
    void turnRight(){
-      dx=speed;
+      dx=SCREEN_WIDTH/3;
       dy=0;
 
    }
    void turnLeft(){
-      dx=-speed;
+      dx=-SCREEN_WIDTH/3;
       dy=0;
    }
    void goUp(){
