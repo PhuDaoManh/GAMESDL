@@ -1,4 +1,4 @@
-#include <iostream>
+#include<bits/stdc++.h>
 #include <SDL.h>
 #include <SDL_image.h>
 #include "graphics.h"
@@ -12,46 +12,34 @@ int main(int argc, char *argv[])
     Graphics graphics;
     graphics.init();
 
-    motion mouse;
-    mouse.x = (SCREEN_WIDTH / 2)-70;
-    mouse.y = (SCREEN_HEIGHT / 2)-70;
-
     bool quit = false;
     SDL_Event event;
-   SDL_Texture* car=graphics.loadTexture("image/car.png");
-    SDL_Texture* bk=graphics.loadTexture("image/botbien.jpg");
-    while (!quit && !gameOver(mouse)) {
-        graphics.prepareScene(bk);
-        while (SDL_PollEvent(&event)) {
 
-            if (event.type == SDL_QUIT) quit = true;
-            else if(event.type == SDL_KEYDOWN){
-        const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+    SDL_Texture* car=graphics.loadTexture("image/car4.png");
+    SDL_Texture* bk=graphics.loadTexture("image/road4.jpg");
+    SDL_Texture* car2=graphics.loadTexture("image/car2.png");
+    Scrollbk background;
+    background.setTexture(bk);
 
-        if (currentKeyStates[SDL_SCANCODE_UP]) mouse.goUp();
-        if (currentKeyStates[SDL_SCANCODE_DOWN]) mouse.goDown();
-        if (currentKeyStates[SDL_SCANCODE_LEFT]) mouse.turnLeft();
-       if (currentKeyStates[SDL_SCANCODE_RIGHT]) mouse.turnRight();
-        mouse.move();}
-           else if(event.type==SDL_KEYUP){
-              switch(event.key.keysym.sym){
-                        case SDLK_UP:
-                        case SDLK_DOWN:
-                            mouse.dy = 0;
-                            break;
-                        case SDLK_LEFT:
-                        case SDLK_RIGHT:
-                            mouse.dx = 0;
-                            break;
-
-                 }
-           }}
-        SDL_Rect rect={mouse.x,mouse.y,100,100};
-        SDL_RenderCopy(graphics.renderer,car,NULL,&rect);
+    Othercar ocar;
+    Othercar ocar2;
+    Motion motion;
+    while(!quit){
+        while(SDL_PollEvent(&event)!=0){
+            if(event.type==SDL_QUIT)
+             quit=true;
+            motion.Handlemove(event);
+        }SDL_RenderClear(graphics.renderer);
+        background.scroll(10);
+        graphics.render(background);
+        graphics.rendercar(car,ocar.x,ocar.y);
+        ocar.move();
+        graphics.rendercar(car2,motion.dx,motion.dy);
         graphics.presentScene();
-        SDL_Delay(10);
+        SDL_Delay(100);
     }
-
+    SDL_DestroyTexture(background.texture);
+    SDL_DestroyTexture(car);
     graphics.quit();
     return 0;
 }

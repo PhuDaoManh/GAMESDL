@@ -1,41 +1,46 @@
 #ifndef _GAME_H
 #define _GAME_H
-struct motion{
-   int x,y;
-   int dx=0,dy=0;
-   int speed=3;
-   void move(){
-       x+=dx;
-       y+=dy;
-   }
-   void turnRight(){
-      dx=SCREEN_WIDTH/3;
-      dy=0;
+struct Motion{
+   int dx=midlanex+50,dy=SCREEN_HEIGHT-200;
+   void Handlemove(SDL_Event event){
+       if(event.type==SDL_KEYDOWN){
+               switch(event.key.keysym.sym){
+                  case SDLK_UP:
+                      dy-=carspeed;
+                      break;
+                  case SDLK_DOWN:
+                      dy+=carspeed;
+                      break;
+                  case SDLK_RIGHT:
+                      dx+=carspeed;
+                      break;
+                  case SDLK_LEFT:
+                      dx-=carspeed;
+                       break;
+                  }
+       }else if(event.type==SDL_KEYUP){
+                switch(event.key.keysym.sym){
+                  case SDLK_UP:
+                      dy+=carspeed;
+                      break;
+                  case SDLK_DOWN:
+                      dy-=carspeed;
+                      break;
+                  case SDLK_RIGHT:
+                      dx-=carspeed;
+                      break;
+                  case SDLK_LEFT:
+                      dx+=carspeed;
+                       break;
+                  }}
 
    }
-   void turnLeft(){
-      dx=-SCREEN_WIDTH/3;
-      dy=0;
-   }
-   void goUp(){
-      dx=0;
-      dy=-speed;
-   }
-   void goDown(){
-       dx=0;
-       dy=speed;
-   }
+
+
+
 
 
 };
-
-
-bool gameOver(const motion& mouse) {
-    return mouse.x < 0 || mouse.x >= SCREEN_WIDTH ||
-           mouse.y < 0 || mouse.y >= SCREEN_HEIGHT;
-}
-
-
 
 
 #endif // _GAME_H

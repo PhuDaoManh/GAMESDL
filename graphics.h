@@ -4,6 +4,41 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include"defs.h"
+
+struct Othercar{
+   int y=-200;
+   int a[3]={midlanex,rightlanex,leftlanex};
+   int c=rand()%3;
+   int x=a[c];
+   int speed=Threatspeed;
+   void move(){
+        y+=speed;
+        if(y>SCREEN_HEIGHT)
+            y=0;
+   }
+};
+
+struct Scrollbk
+{
+    SDL_Texture* texture;
+
+    int sc = 0;
+    int width, height;
+
+    void setTexture(SDL_Texture* _texture) {
+        texture = _texture;
+        SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    }
+
+    void scroll(int distance) {
+        sc += distance;
+        if( sc >height ) { sc = 0; }
+    }
+};
+
+
+
+
 struct Graphics{
     SDL_Renderer *renderer;
     SDL_Window *window;
@@ -14,7 +49,7 @@ struct Graphics{
         SDL_Quit();
     }
 
-    void init()
+    void init()//tao cua so va moi truong lam viec
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
             logErrorAndExit("SDL_Init", SDL_GetError());
@@ -36,23 +71,18 @@ struct Graphics{
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
         SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
-void prepareScene()
-    {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
-    }
-   void prepareScene(SDL_Texture * background)
+   void prepareScene(SDL_Texture * background)//xoa render hien tai de chuan bi cho noi dung moi
    {
-       SDL_RenderClear(renderer);
+      SDL_RenderClear(renderer);
       SDL_RenderCopy(renderer, background, NULL, NULL);
    }
 
-    void presentScene()
+    void presentScene()// hien nhung thu sau khi renderclear va copy
     {
         SDL_RenderPresent(renderer);
     }
 
-    SDL_Texture *loadTexture(const char *filename)
+    SDL_Texture *loadTexture(const char *filename)//tai anh len cua so
     {
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,"Loading %s", filename);
         SDL_Texture *texture = IMG_LoadTexture(renderer, filename);
@@ -61,7 +91,7 @@ void prepareScene()
         return texture;
     }
 
-    void renderTexture(SDL_Texture *texture, int x, int y)
+    void renderTexture(SDL_Texture *texture, int x, int y)//tao mot hinh chu nhat khop voi render
     {
         SDL_Rect dest;
 
@@ -70,7 +100,23 @@ void prepareScene()
         SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
         SDL_RenderCopy(renderer, texture, NULL, &dest);
-   }
+  }
+
+   void render(const Scrollbk& background)//ve 2 hinh chu nhat mot hinh o dau mot hinh cuoi man
+    {
+        renderTexture(background.texture,0,background.sc);
+        renderTexture(background.texture,0, background.sc - background.height);
+    }
+    void rendercar(SDL_Texture* texture,int x,int y){
+        SDL_Rect rect;
+        rect.x=x;
+        rect.y=y;
+        rect.w=150;
+        rect.h=200;
+        SDL_RenderCopy(renderer,texture,NULL,&rect);
+    }
+
+
 
     void quit()
     {
