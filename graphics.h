@@ -5,18 +5,6 @@
 #include <SDL_image.h>
 #include"defs.h"
 
-struct Othercar{
-   int y=-200;
-   int a[3]={midlanex,rightlanex,leftlanex};
-   int c=rand()%3;
-   int x=a[c];
-   int speed=Threatspeed;
-   void move(){
-        y+=speed;
-        if(y>SCREEN_HEIGHT)
-            y=0;
-   }
-};
 
 struct Scrollbk
 {
@@ -107,16 +95,6 @@ struct Graphics{
         renderTexture(background.texture,0,background.sc);
         renderTexture(background.texture,0, background.sc - background.height);
     }
-    void rendercar(SDL_Texture* texture,int x,int y){
-        SDL_Rect rect;
-        rect.x=x;
-        rect.y=y;
-        rect.w=150;
-        rect.h=200;
-        SDL_RenderCopy(renderer,texture,NULL,&rect);
-    }
-
-
 
     void quit()
     {
