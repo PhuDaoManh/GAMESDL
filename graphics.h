@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include<SDL_mixer.h>
 #include"defs.h"
 
 
@@ -79,7 +80,7 @@ struct Graphics{
         return texture;
     }
 
-    void renderTexture(SDL_Texture *texture, int x, int y)//tao mot hinh chu nhat khop voi render
+    void renderTexture(SDL_Texture *texture, int x, int y)//tao mot hinh chu nhat khop voi kich thuoc anh
     {
         SDL_Rect dest;
 

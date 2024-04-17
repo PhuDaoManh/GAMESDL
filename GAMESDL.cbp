@@ -35,6 +35,8 @@
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2" />
 			<Add option="-lSDL2_image" />
+			<Add option="-lSDL2_mixer" />
+			<Add option="-lSDL2_ttf" />
 			<Add directory="C:/Users/daoma/Documents/x86_64-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="defs.h" />
