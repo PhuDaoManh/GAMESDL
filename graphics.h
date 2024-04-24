@@ -25,7 +25,7 @@ struct Graphics{
 
     Graphics(){}
 
-    void Menu();
+    void renderMenu();
     void loadImageandSound();
     void logErrorAndExit(const char* msg, const char* error);
     void init();
