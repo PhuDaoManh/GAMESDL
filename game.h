@@ -1,27 +1,72 @@
 #ifndef _GAME_H
 #define _GAME_H
 #include "graphics.h"
+
 struct Mycar
 {
-   int x=midlane2x;
-   int y=SCREEN_HEIGHT-100;
-   SDL_Event event;
-   Motion(){}
-   void Mouse();
-   void Mycarmove(bool &quit);
+   int x,y;
+   Mycar(){}
+
+   void moveUp();
+   void moveDown();
+   void turnRight();
+   void turnLeft();
+   void Mycarmove(SDL_Event &event);
 };
 
 struct Othercar
 {
    int x,y;
-   int speed=Threatspeed;
    SDL_Texture* texture;
    Othercar(){}
-   int a[4]={leftlanex,midlane1x,midlane2x,rightlanex};
    void move(int i);
 };
-
+struct Shield
+{
+    int x,y;
+    void shieldmove();
+};
 bool checkCollision(int x1,int y1,int x2,int y2);
+struct Game
+{   SDL_Event event;
+    Mycar car;
+    Othercar ocar[4];
+    Sprite sprite;
+    Shield shield;
+    SDL_Texture* texture;
+
+    GameStatus status=Menu;
+
+    int xMouse,yMouse;
+    int Playerlives=0;
+    int scores=1;
+    int xboom=0,yboom=0;
+    bool isExplode=false;
+    int k=0;
+    bool musicStarted=false;
+    bool haveShield=false;
+    bool isDead=false;
+    int delay=-1;
+
+    Game(){}
+    void displayMusic();
+    void renderExplode();
+    const char* renderScore(const char* a);
+    void getMousePos(int &x,int &y);
+    bool menuToStart(int x,int y);
+    bool menuToExit(int x,int y);
+    bool overToPlayAgain(int x,int y);
+    bool overToQuit(int x,int y);
+    void prepare();
+    void setEnemy();
+    void getCrash();
+    void render();
+    void update();
+    void run();
+
+
+
+};
 
 
 #endif // _GAME_H
