@@ -1,9 +1,8 @@
 
 #include "game.h"
-#include<bits/stdc++.h>
 using namespace std;
 extern Graphics graphics;
-float speed=2;
+float speed;
 void Mycar::moveUp()
 {
      y-=carspeed;
@@ -47,7 +46,7 @@ void Mycar::Mycarmove(SDL_Event &event)
           }
 }
 void Othercar::move(int i)
-{       y+=speed+1;
+{       y+=speed;
         if(y>SCREEN_HEIGHT)
         {   y=-(200+rand()%101);
             if(i%2==0)
@@ -64,8 +63,8 @@ void Shield::shieldmove()
         x=lane[rand()%4];
     }
 }
-void Game::setEnemy()
-{
+void Game::set()
+{   //Othercar
     ocar[0].x=lane[rand()%2+2];
     ocar[0].texture=graphics.pic[CAR_1];
     ocar[0].y=-200;
@@ -79,16 +78,24 @@ void Game::setEnemy()
       else ocar[i].x=lane[rand()%2];
       ocar[i].y=ocar[i-1].y-(rand()%101+400);
     }
+    //my car
     car.x=midlane2x;
     car.y=SCREEN_HEIGHT-carsizey;
+    //shield
     shield.x=lane[rand()%4];
-    shield.y=-100;
+    shield.y=-2000;
+    //scores and speed
+    scores=1;
+    k=0;
+    speed=3;
+    // font
+
 }
 
 void Game::prepare()
 {   srand(time(NULL));
     graphics.bk.setTexture(graphics.pic[BACKGROUND]);
-    setEnemy();
+    set();
     sprite.init(graphics.pic[14],EXPLODE_FRAMES,EXPLODE_CLIPS);
 }
 bool checkCollision(int x1,int y1,int x2,int y2)
@@ -137,10 +144,10 @@ bool Game::overToQuit(int x,int y)
 return false;
 }
 
-const char* Game::renderScore(const char* s)
+const char* Game::renderScore(const char* s,int a)
 {
     stringstream ss;
-    ss << s << scores;
+    ss << s << a;
     string b=ss.str();
     const char* result = b.c_str();
 return result;
@@ -170,11 +177,38 @@ void Game::displayMusic()
             musicStarted = true;
         }
 }
+void Game::gameOver()
+{
+     if(isDead)
+        {
+         delay=48;
+         ifstream file("highscore.txt");
+                file >> highscore;
+                file.close();
+                if(scores>highscore)
+                 {
+                    highscore=scores;
+                    ofstream files("highscore.txt");
+                    files << highscore;
+                    files.close();
+            }   cout << highscore;
+
+         isDead=false;
+        }
+        if(delay>0)
+          delay--;
+        if(delay==0)
+        {
+          status=GameOver;
+          graphics.play(graphics.sound[1]);
+          delay=-1;
+        }
+}
 void Game::render()
 {   getMousePos(xMouse,yMouse);
 
     if(status==Start)
-    { graphics.bk.scroll(speed);
+    { graphics.bk.scroll(speed-1);
       graphics.render(graphics.bk);
       graphics.renderTexture(graphics.pic[SHIELD],shield.x,shield.y);
       graphics.renderTexture(graphics.pic[ MY_CAR],car.x,car.y);
@@ -186,9 +220,8 @@ void Game::render()
       for(int i=0;i<Playerlives;i++)
     {
         graphics.renderTexture(graphics.pic[HEART],xHeart[i],yHeart);
-    }
-        texture=graphics.renderText(renderScore("Scores:"),graphics.font,black);
-        graphics.renderTexture(texture,340,10);
+    }    texture[0]=graphics.renderText(renderScore("Scores: ",scores),graphics.font,white);
+         graphics.renderTexture(texture[0],340,10);
 
         renderExplode();
         if(haveShield)
@@ -210,6 +243,9 @@ void Game::render()
             graphics.renderTexture(graphics.pic[YES],116,410);
          if(overToQuit(xMouse,yMouse))
             graphics.renderTexture(graphics.pic[NO],193,409,130,60);
+        graphics.renderTexture(texture[0],30,30);
+        texture[1]=graphics.renderText(renderScore("High scores: ",highscore),graphics.font,white);
+        graphics.renderTexture(texture[1],30,50);
    }
 }
 void Game::update()
@@ -220,6 +256,7 @@ void Game::update()
          if(checkCollision(car.x,car.y,ocar[i].x,ocar[i].y))
            {    xboom=ocar[i].x;
                 yboom=ocar[i].y;
+                ocar[i].y=-600;
                 if(haveShield==false)
                 {Playerlives--;}
                 if(haveShield)
@@ -227,14 +264,14 @@ void Game::update()
                    shield.x=lane[rand()%4];
                    haveShield=false;
                 }
-                ocar[i].y=-600;
                 isExplode=true;
                  graphics.play(graphics.sound[2]);
-                 if(Playerlives<0)
-               {
-                isDead=true;
-               }
-           }
+              if (Playerlives < 0)
+            {
+                isDead = true;
+
+            }
+}
         for(int j=i+1;j<4;j++)
             if(checkCollision(ocar[i].x,ocar[i].y,ocar[j].x,ocar[j].y))
                 ocar[j].y-=400;
@@ -250,22 +287,10 @@ void Game::update()
         k++;
         if(k%15==0)
             scores++;
-        if(k%300==0)
+        if(k%400==0)
            speed+=0.3;
 
-        if(isDead)
-        {
-         delay=60;
-         isDead=false;
-        }
-        if(delay>0)
-          delay--;
-        if(delay==0)
-        {
-          status=GameOver;
-          graphics.play(graphics.sound[1]);
-          delay=-1;
-        }
+       gameOver();
            }
 
 }
@@ -294,7 +319,7 @@ void Game::run()
              {
                  if(overToPlayAgain(xMouse,yMouse))
              {
-                setEnemy();
+                set();
                 status=Start;
                 Playerlives=3;
              }   else if(overToQuit(xMouse,yMouse))
@@ -302,12 +327,20 @@ void Game::run()
              }
          }
      }
-        render();
+
 
         update();
 
+        render();
+
         displayMusic();
 
+}
+void Game::free()
+{
+    graphics.quit();
+    for(int i=0;i<2;i++)
+        SDL_DestroyTexture(texture[i]);
 }
 
 

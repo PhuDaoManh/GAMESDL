@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1714656399 source:c:\users\daoma\documents\gamesdl\main.cpp
+1714970219 source:c:\users\daoma\documents\gamesdl\main.cpp
 	"game.h"
 
 1698944750 c:\users\daoma\documents\x86_64-w64-mingw32\include\sdl2\sdl.h
@@ -401,9 +401,9 @@
 	"begin_code.h"
 	"close_code.h"
 
-1714835624 c:\users\daoma\documents\gamesdl\defs.h
+1714965268 c:\users\daoma\documents\gamesdl\defs.h
 
-1714791397 c:\users\daoma\documents\gamesdl\graphics.h
+1714963283 c:\users\daoma\documents\gamesdl\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -415,7 +415,7 @@
 
 1711369681 c:\users\daoma\documents\gamesdl\logic.h
 
-1714838471 c:\users\daoma\documents\gamesdl\game.h
+1714965289 c:\users\daoma\documents\gamesdl\game.h
 	"graphics.h"
 
 1711619161 c:\users\daoma\documents\gamesdl\othercar.h
@@ -430,12 +430,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1714837969 source:c:\users\daoma\documents\gamesdl\graphics.cpp
+1714970142 source:c:\users\daoma\documents\gamesdl\graphics.cpp
 	"graphics.h"
 
-1714837881 source:c:\users\daoma\documents\gamesdl\game.cpp
+1714970201 source:c:\users\daoma\documents\gamesdl\game.cpp
 	"game.h"
-	<bits/stdc++.h>
 
 1713861907 source:c:\users\daoma\documents\gamesdl\logic.cpp
 

@@ -67,6 +67,6 @@ const int EXPLODE_CLIPS[][4] = {
 
 const int EXPLODE_FRAMES = sizeof(EXPLODE_CLIPS) / sizeof(int) / 4;
 
-const SDL_Color black = {0,0,0,255};
+const SDL_Color white = {255,255,255};
 
 #endif

@@ -33,13 +33,14 @@ struct Game
     Othercar ocar[4];
     Sprite sprite;
     Shield shield;
-    SDL_Texture* texture;
+    SDL_Texture* texture[2];
 
     GameStatus status=Menu;
 
     int xMouse,yMouse;
-    int Playerlives=0;
-    int scores=1;
+    int Playerlives=3;
+    int scores;
+    int highscore=0;
     int xboom=0,yboom=0;
     bool isExplode=false;
     int k=0;
@@ -49,17 +50,19 @@ struct Game
     int delay=-1;
 
     Game(){}
+    void free();
     void displayMusic();
     void renderExplode();
-    const char* renderScore(const char* a);
+    const char* renderScore(const char* a,int b);
     void getMousePos(int &x,int &y);
     bool menuToStart(int x,int y);
     bool menuToExit(int x,int y);
     bool overToPlayAgain(int x,int y);
     bool overToQuit(int x,int y);
     void prepare();
-    void setEnemy();
+    void set();
     void getCrash();
+    void gameOver();
     void render();
     void update();
     void run();

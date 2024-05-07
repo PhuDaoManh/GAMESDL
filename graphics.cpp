@@ -33,7 +33,25 @@ void Graphics::loadMedia()
     sound.push_back(loadSound("assets/sound/crash.mp3"));
     sound.push_back(loadSound("assets/sound/gain.mp3"));
 }
-
+void Graphics::free()
+{
+    for(int i=0;i<pic.size();i++)
+    {
+        SDL_DestroyTexture(pic[i]);
+        pic[i]=NULL;
+    }
+    for(int i=0;i<music.size();i++)
+    {
+      Mix_FreeMusic(music[i]);
+      music[i]=NULL;
+    }
+    for(int i=0;i<sound.size();i++)
+     {
+         Mix_FreeChunk(sound[i]);
+         sound[i]=NULL;
+     }
+     TTF_CloseFont(font);
+}
 void Scrollbk::setTexture(SDL_Texture* _texture)
 {
         texture = _texture;
@@ -209,7 +227,9 @@ SDL_Texture* Graphics::renderText(const char* text, TTF_Font* font, SDL_Color te
 
 
     void Graphics::quit()
-    {    TTF_Quit();
+    {    free();
+
+         TTF_Quit();
          Mix_Quit();
          IMG_Quit();
          SDL_DestroyRenderer(renderer);
