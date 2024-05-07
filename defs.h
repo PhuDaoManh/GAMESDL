@@ -5,21 +5,21 @@
 #define  SCREEN_HEIGHT  680
 #define WINDOW_TITLE "Hello World"
 
-const int carspeed=15;
+#define carspeed 15
 
-const int lanesize=59;
-const int leftlanex=100;
-const int midlane1x=leftlanex+lanesize;
-const int midlane2x=midlane1x+lanesize;
-const int rightlanex=midlane2x+lanesize;
+#define lanesize  59
+#define leftlanex  100
+#define midlane1x  leftlanex + lanesize
+#define midlane2x  midlane1x + lanesize
+#define rightlanex  midlane2x + lanesize
 
-const int carsizex=50;
-const int carsizey=100;
+#define carsizex 50
+#define carsizey 100
 
 const int lane[4]={leftlanex,midlane1x,midlane2x,rightlanex};
 
 const int xHeart[3]={10,35,60};
-const int yHeart=10;
+#define yHeart 10
 
 #define MY_CAR 0
 #define CAR_1 1

@@ -179,7 +179,7 @@ void Game::displayMusic()
 }
 void Game::gameOver()
 {
-     if(isDead)
+     if(delaygame)
         {
          delay=48;
          ifstream file("highscore.txt");
@@ -191,9 +191,9 @@ void Game::gameOver()
                     ofstream files("highscore.txt");
                     files << highscore;
                     files.close();
-            }   cout << highscore;
+            }
 
-         isDead=false;
+         delaygame=false;
         }
         if(delay>0)
           delay--;
@@ -221,7 +221,7 @@ void Game::render()
     {
         graphics.renderTexture(graphics.pic[HEART],xHeart[i],yHeart);
     }    texture[0]=graphics.renderText(renderScore("Scores: ",scores),graphics.font,white);
-         graphics.renderTexture(texture[0],340,10);
+         graphics.renderTexture(texture[0],325,10);
 
         renderExplode();
         if(haveShield)
@@ -268,12 +268,12 @@ void Game::update()
                  graphics.play(graphics.sound[2]);
               if (Playerlives < 0)
             {
-                isDead = true;
-
+                delaygame = true;
+                isDead=true;
             }
 }
         for(int j=i+1;j<4;j++)
-            if(checkCollision(ocar[i].x,ocar[i].y,ocar[j].x,ocar[j].y))
+            if(checkCollision(ocar[i].x,ocar[i].y+50,ocar[j].x,ocar[j].y))
                 ocar[j].y-=400;
     } shield.shieldmove();
      if(checkCollision(shield.x,shield.y-80,car.x,car.y))
@@ -282,14 +282,14 @@ void Game::update()
         shield.y=-2500;
         shield.x=lane[rand()%4];
         graphics.play(graphics.sound[3]);
-      }
-
+      } if(!isDead)
+       {
         k++;
         if(k%15==0)
             scores++;
         if(k%400==0)
-           speed+=0.3;
-
+           speed+=0.1;
+       }
        gameOver();
            }
 

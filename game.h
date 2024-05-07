@@ -46,8 +46,9 @@ struct Game
     int k=0;
     bool musicStarted=false;
     bool haveShield=false;
-    bool isDead=false;
+    bool delaygame=false;
     int delay=-1;
+    bool isDead=false;
 
     Game(){}
     void free();
