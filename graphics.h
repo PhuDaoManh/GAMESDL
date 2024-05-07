@@ -5,10 +5,16 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+
 #include "defs.h"
-#include <bits/stdc++.h>
 #include "sprite.h"
 #include "game.h"
+
+#include <fstream>
+#include <iostream>
+#include <cstring>
+#include <ctime>
+#include <sstream>
 using namespace std;
 
 struct Scrollbk

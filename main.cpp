@@ -1,8 +1,6 @@
 
 #include "game.h"
 
-using namespace std;
-
 Graphics graphics;
 
 int main(int argc, char *argv[])
@@ -16,6 +14,7 @@ int main(int argc, char *argv[])
       game.run();
 
       graphics.presentScene();
+
       SDL_Delay(15);
   }
   game.free();

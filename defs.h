@@ -43,7 +43,6 @@ const int xHeart[3]={10,35,60};
 enum GameStatus{
       Menu,
       Start,
-      Pause,
       GameOver,
       QuitGame
 };

@@ -40,8 +40,8 @@ struct Game
     int xMouse,yMouse;
     int Playerlives=3;
     int scores;
-    int highscore=0;
-    int xboom=0,yboom=0;
+    int highscore;
+    int xboom,yboom;
     bool isExplode=false;
     int k=0;
     bool musicStarted=false;

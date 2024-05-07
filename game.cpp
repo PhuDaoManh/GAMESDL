@@ -191,7 +191,7 @@ void Game::gameOver()
                     ofstream files("highscore.txt");
                     files << highscore;
                     files.close();
-            }
+                 }
 
          delaygame=false;
         }
@@ -271,7 +271,7 @@ void Game::update()
                 delaygame = true;
                 isDead=true;
             }
-}
+          }
         for(int j=i+1;j<4;j++)
             if(checkCollision(ocar[i].x,ocar[i].y+50,ocar[j].x,ocar[j].y))
                 ocar[j].y-=400;
@@ -292,7 +292,6 @@ void Game::update()
        }
        gameOver();
            }
-
 }
 void Game::run()
 {
@@ -322,6 +321,7 @@ void Game::run()
                 set();
                 status=Start;
                 Playerlives=3;
+                isDead=false;
              }   else if(overToQuit(xMouse,yMouse))
                     status=QuitGame;
              }

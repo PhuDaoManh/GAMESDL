@@ -1,6 +1,6 @@
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
-#include<bits/stdc++.h>
+#include <vector>
 #include <SDL.h>
 struct Sprite {
     SDL_Texture* texture;

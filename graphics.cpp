@@ -4,12 +4,12 @@ using namespace std;
 
 void Graphics::loadMedia()
 {
-    pic.push_back( loadTexture("assets/image/car.png"));
-    pic.push_back( loadTexture("assets/image/car2.png"));
-    pic.push_back( loadTexture("assets/image/car3.png"));
+    pic.push_back(loadTexture("assets/image/car.png"));
+    pic.push_back(loadTexture("assets/image/car2.png"));
+    pic.push_back(loadTexture("assets/image/car3.png"));
     pic.push_back(loadTexture("assets/image/car4.png"));
-    pic.push_back( loadTexture("assets/image/car5.png"));
-    pic.push_back( loadTexture("assets/image/road9.jpg"));
+    pic.push_back(loadTexture("assets/image/car5.png"));
+    pic.push_back(loadTexture("assets/image/road9.jpg"));
     pic.push_back(loadTexture("assets/image/menu.png"));
     pic.push_back(loadTexture("assets/image/heart.png"));
     pic.push_back(loadTexture("assets/image/playbutton.png"));
